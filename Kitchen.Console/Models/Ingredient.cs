@@ -12,6 +12,7 @@ namespace Kitchen.Console.Models
         [Required]
         public int IngredientId { get; set; }
         public string Name { get; set; }
+        public int Quantity { get; set; }
 
         public virtual ICollection<Recipe> Recipes { get; set; }
     }

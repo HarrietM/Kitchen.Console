@@ -13,23 +13,21 @@ namespace Kitchen.Console.DAL
     {
         protected override void Seed(KitchenContext context)
         {
-            context.Ingredients.AddOrUpdate(x => x.IngredientId,
-                 new Ingredient() { IngredientId = 1, Name = "Egg" },
-                 new Ingredient() { IngredientId = 2, Name = "Tomato" },
-                 new Ingredient() { IngredientId = 3, Name = "Courgette" },
-                 new Ingredient() { IngredientId = 4, Name = "Pork" },
-                 new Ingredient() { IngredientId = 5, Name = "Tomcat" },
-                 new Ingredient() { IngredientId = 6, Name = "Chilli" }
-             );
+            //context.Ingredients.AddOrUpdate(x => x.IngredientId,
+            //     new Ingredient() { IngredientId = 1, Name = "Egg", Quantity = 10},
+            //     new Ingredient() { IngredientId = 2, Name = "Tomato", Quantity = 10},
+            //     new Ingredient() { IngredientId = 3, Name = "Courgette", Quantity = 10},
+            //     new Ingredient() { IngredientId = 4, Name = "Pork", Quantity = 10 },
+            //     new Ingredient() { IngredientId = 6, Name = "Chilli", Quantity = 10 }
+            // );
 
             var ingredients = new List<Ingredient>()
                 {
-                    new Ingredient() { IngredientId = 1, Name = "Egg" },
-                    new Ingredient() { IngredientId = 2, Name = "Tomato" },
-                    new Ingredient() { IngredientId = 3, Name = "Courgette" },
-                    new Ingredient() { IngredientId = 4, Name = "Pork" },
-                    new Ingredient() { IngredientId = 5, Name = "Tomcat" },
-                    new Ingredient() { IngredientId = 6, Name = "Chilli" }
+                    new Ingredient() { IngredientId = 1, Name = "Egg", Quantity = 10 },
+                    new Ingredient() { IngredientId = 2, Name = "Tomato", Quantity = 10 },
+                    new Ingredient() { IngredientId = 3, Name = "Courgette", Quantity = 10 },
+                    new Ingredient() { IngredientId = 4, Name = "Pork", Quantity = 10 },
+                    new Ingredient() { IngredientId = 6, Name = "Chilli", Quantity = 10 }
                 };
 
             context.Recipes.AddOrUpdate(x => x.RecipeId,
@@ -55,7 +53,7 @@ namespace Kitchen.Console.DAL
                 {
                     RecipeId = 4,
                     Name = "Meaty Spicy",
-                    Ingredients = (ICollection<Ingredient>)ingredients.Where(x => x.Name == "Egg" || x.Name == "Tomcat" || x.Name == "Chilli" || x.Name == "Pork").ToList()
+                    Ingredients = (ICollection<Ingredient>)ingredients.Where(x => x.Name == "Egg" || x.Name == "Tomato" || x.Name == "Chilli" || x.Name == "Pork").ToList()
                 }
             );
 

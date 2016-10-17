@@ -16,6 +16,7 @@ namespace Kitchen.Console.DAL
 
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
+        public DbSet<Omelette> Omelettes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
