@@ -19,7 +19,7 @@ namespace Kitchen.Console
         IEnumerable<Recipe> CalculateRecipesFromAvailableIngredients();
         Recipe GetOrder();
         Recipe CookCurrentOrder();
-        Dictionary<Recipe, int> GetOmelettesCooked();
+        Dictionary<string, int> GetOmelettesCooked();
         IEnumerable<Omelette> GetOmelettesCookedToday();
         void GetDelivery();
     }
@@ -112,14 +112,19 @@ namespace Kitchen.Console
             }
         }
 
-        public Dictionary<Recipe, int> GetOmelettesCooked()
+        public Dictionary<string, int> GetOmelettesCooked()
         {
             using (var context = new KitchenContext())
             {
-                return _omeletteReader.GetAllOmelettesCooked(context)
-                    .GroupBy(x => x.Recipe)
-                    .Select(y => new {Recipe = y.Key, Count = y.Count()})
-                    .ToDictionary(z => z.Recipe, z => z.Count);
+                var dictionary = new Dictionary<string, int>();
+                var omelettes = _omeletteReader.GetAllOmelettesCooked(context);
+
+                foreach (var omelette in omelettes)
+                {
+                    dictionary[omelette.Recipe.Name] = dictionary.ContainsKey(omelette.Recipe.Name) ? dictionary[omelette.Recipe.Name] + 1 : 1;
+                }
+
+                return dictionary;
             }
         }
 

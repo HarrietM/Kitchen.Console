@@ -15,7 +15,7 @@ namespace Kitchen.Console.Views
         void ShowRecipesAbleToCreate(IEnumerable<Recipe> recipes);
         void ShowOrder(Recipe recipe);
         void ShowCookedOrder(Recipe recipe);
-        void ShowOmelettesCooked(Dictionary<Recipe, int> omelettes);
+        void ShowOmelettesCooked(Dictionary<string, int> omelettes);
     }
 
     public class View : IView
@@ -56,10 +56,10 @@ namespace Kitchen.Console.Views
             Console.WriteLine("You have cooked one " + recipe.Name + " omelette.");
         }
 
-        public void ShowOmelettesCooked(Dictionary<Recipe, int> omelettes)
+        public void ShowOmelettesCooked(Dictionary<string, int> omelettes)
         {
             Console.WriteLine("You have made the following omelettes:");
-            omelettes.ForEach(x => Console.WriteLine(x.Key.Name + ", " + x.Value));
+            omelettes.ForEach(x => Console.WriteLine(x.Key + ", " + x.Value));
         }
     }
 }
