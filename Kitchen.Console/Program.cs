@@ -1,12 +1,11 @@
-﻿using System.Data.Entity;
-using Castle.Core.Internal;
+﻿using System;
+using System.Data.Entity;
 using Castle.Windsor;
 using Kitchen.Console.DAL;
 using Kitchen.Console.Views;
 
 namespace Kitchen.Console
 {
-    using System;
     public class Program
     {
         private static bool _kitchenIsOpen;
@@ -20,7 +19,7 @@ namespace Kitchen.Console
 
         private static void Run()
         {
-            Database.SetInitializer<KitchenContext>(new DatabaseInitializer());
+            Database.SetInitializer(new DatabaseInitializer());
             var container = new WindsorContainer().Install(new WindsorInstaller());
             _kitchen = container.Resolve<IKitchen>();
             _view = container.Resolve<IView>();
@@ -29,7 +28,7 @@ namespace Kitchen.Console
 
             while (_kitchenIsOpen)
             {
-                var input = Console.ReadLine();
+                var input = System.Console.ReadLine();
                 Process(input);
             }
 
