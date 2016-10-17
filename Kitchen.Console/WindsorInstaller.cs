@@ -9,6 +9,7 @@ using Castle.Windsor;
 using Kitchen.Console.DAL;
 using Kitchen.Console.DAL.Readers;
 using Kitchen.Console.DAL.Writers;
+using Kitchen.Console.Views;
 
 namespace Kitchen.Console
 {
@@ -21,7 +22,8 @@ namespace Kitchen.Console
                                Component.For<IIngredientWriter>().ImplementedBy(typeof(IngredientWriter)),
                                Component.For<IIngredientReader>().ImplementedBy(typeof(IngredientReader)),
                                Component.For<IRecipeReader>().ImplementedBy(typeof(RecipeReader)),
-                               Component.For<IKitchen>().ImplementedBy(typeof(Kitchen)));
+                               Component.For<IKitchen>().ImplementedBy(typeof(Kitchen)),
+                               Component.For<IView>().ImplementedBy(typeof(View)));
         }
     }
 }

@@ -56,18 +56,19 @@ namespace Kitchen.Console
                     break;
                 case "get delivery":
                     _kitchen.GetDelivery();
+                    _view.AcceptDelivery();
                     break;
                 case "calculate":
-                    _kitchen.CalculateRecipesFromAvailableIngredients();
+                    _view.ShowRecipesAbleToCreate(_kitchen.CalculateRecipesFromAvailableIngredients());
                     break;
                 case "get order":
-                    _kitchen.GetOrder();
+                    _view.ShowOrder(_kitchen.GetOrder());
                     break;
                 case "cook order":
-                    _kitchen.CookCurrentOrder();
+                    _view.ShowCookedOrder(_kitchen.CookCurrentOrder());
                     break;
                 case "get omelettes cooked":
-                    _kitchen.GetOmelettesCooked();
+                    _view.ShowOmelettesCooked(_kitchen.GetOmelettesCooked());
                     break;
                 case "close":
                     _kitchenIsOpen = false;

@@ -13,14 +13,6 @@ namespace Kitchen.Console.DAL
     {
         protected override void Seed(KitchenContext context)
         {
-            //context.Ingredients.AddOrUpdate(x => x.IngredientId,
-            //     new Ingredient() { IngredientId = 1, Name = "Egg", Quantity = 10},
-            //     new Ingredient() { IngredientId = 2, Name = "Tomato", Quantity = 10},
-            //     new Ingredient() { IngredientId = 3, Name = "Courgette", Quantity = 10},
-            //     new Ingredient() { IngredientId = 4, Name = "Pork", Quantity = 10 },
-            //     new Ingredient() { IngredientId = 6, Name = "Chilli", Quantity = 10 }
-            // );
-
             var ingredients = new List<Ingredient>()
                 {
                     new Ingredient() { IngredientId = 1, Name = "Egg", Quantity = 10 },

@@ -18,8 +18,8 @@ namespace Kitchen.Console
         IEnumerable<Recipe> GetAvailableRecipes();
         IEnumerable<Recipe> CalculateRecipesFromAvailableIngredients();
         Recipe GetOrder();
-        void CookCurrentOrder();
-        IEnumerable<Omelette> GetOmelettesCooked();
+        Recipe CookCurrentOrder();
+        Dictionary<Recipe, int> GetOmelettesCooked();
         IEnumerable<Omelette> GetOmelettesCookedToday();
         void GetDelivery();
     }
@@ -84,23 +84,24 @@ namespace Kitchen.Console
         {
             using (var context = new KitchenContext())
             {
-                CurrentOrder = _recipeReader.GetRecipes(context).OrderBy(x => x.RecipeId).Take(1).First();
+                CurrentOrder = _recipeReader.GetRecipes(context).OrderBy(x => Guid.NewGuid()).Take(1).First();
                 return CurrentOrder;
             }
         }
 
-        public void CookCurrentOrder()
+        public Recipe CookCurrentOrder()
         {
             using (var context = new KitchenContext())
             {
-                var currentOrderId = CurrentOrder.RecipeId;
-                _omeletteWriter.Save(context, currentOrderId);
+                _omeletteWriter.Save(context, CurrentOrder);
 
                 foreach (var ingredient in CurrentOrder.Ingredients)
                 {
                     _ingredientWriter.UpdateQuantity(context, ingredient.IngredientId, -1);
                 }
             }
+
+            return CurrentOrder;
         }
 
         public IEnumerable<Omelette> GetOmelettesCookedToday()
@@ -111,11 +112,14 @@ namespace Kitchen.Console
             }
         }
 
-        public IEnumerable<Omelette> GetOmelettesCooked()
+        public Dictionary<Recipe, int> GetOmelettesCooked()
         {
             using (var context = new KitchenContext())
             {
-                return _omeletteReader.GetAllOmelettesCooked(context).OrderBy(x => x.DateCooked).ToList();
+                return _omeletteReader.GetAllOmelettesCooked(context)
+                    .GroupBy(x => x.Recipe)
+                    .Select(y => new {Recipe = y.Key, Count = y.Count()})
+                    .ToDictionary(z => z.Recipe, z => z.Count);
             }
         }
 

@@ -21,6 +21,7 @@ namespace Kitchen.Console.DAL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Recipe>()
+                        .HasKey(e => e.RecipeId)
                         .HasMany<Ingredient>(s => s.Ingredients)
                         .WithMany(c => c.Recipes)
                         .Map(cs =>
@@ -29,6 +30,9 @@ namespace Kitchen.Console.DAL
                             cs.MapRightKey("IngredientRefId");
                             cs.ToTable("RecipeIngredient");
                         });
+
+            modelBuilder.Entity<Omelette>()
+                        .HasRequired(s => s.Recipe);
         }
     }
 }

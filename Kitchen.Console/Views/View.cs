@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Castle.Core.Internal;
 using Kitchen.Console.Models;
 
@@ -10,6 +11,11 @@ namespace Kitchen.Console.Views
         void OpenKitchen();
         void ShowRecipes(IEnumerable<Recipe> recipes);
         void ShowIngredients(IEnumerable<Ingredient> ingredients);
+        void AcceptDelivery();
+        void ShowRecipesAbleToCreate(IEnumerable<Recipe> recipes);
+        void ShowOrder(Recipe recipe);
+        void ShowCookedOrder(Recipe recipe);
+        void ShowOmelettesCooked(Dictionary<Recipe, int> omelettes);
     }
 
     public class View : IView
@@ -29,8 +35,31 @@ namespace Kitchen.Console.Views
             ingredients.ForEach(x => Console.WriteLine(x.Name + "," + x.Quantity));
         }
 
-        public void ShowDelivery()
+        public void AcceptDelivery()
         {
+            Console.WriteLine("You have recieved a delivery of ingredients. Type 'get ingredients' to check your current stocks.");
+        }
+
+        public void ShowRecipesAbleToCreate(IEnumerable<Recipe> recipes)
+        {
+            Console.WriteLine("You can make the following recipes from the available ingredients.");
+            ShowRecipes(recipes);
+        }
+
+        public void ShowOrder(Recipe recipe)
+        {
+            Console.WriteLine("An order has been placed for an omelette: " + recipe.Name);
+        }
+
+        public void ShowCookedOrder(Recipe recipe)
+        {
+            Console.WriteLine("You have cooked one " + recipe.Name + " omelette.");
+        }
+
+        public void ShowOmelettesCooked(Dictionary<Recipe, int> omelettes)
+        {
+            Console.WriteLine("You have made the following omelettes:");
+            omelettes.ForEach(x => Console.WriteLine(x.Key.Name + ", " + x.Value));
         }
     }
 }

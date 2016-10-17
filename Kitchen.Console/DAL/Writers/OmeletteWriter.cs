@@ -9,13 +9,13 @@ namespace Kitchen.Console.DAL.Writers
 {
     public interface IOmeletteWriter
     {
-        void Save(KitchenContext context, int recipeId);
+        void Save(KitchenContext context, Recipe currentOrder);
     }
     public class OmeletteWriter : IOmeletteWriter
     {
-        public void Save(KitchenContext context, int recipeId)
+        public void Save(KitchenContext context, Recipe currentOrder)
         {
-            context.Omelettes.Add(new Omelette {RecipeId = recipeId, DateCooked = DateTime.Today});
+            context.Omelettes.Add(new Omelette {Recipe = currentOrder, DateCooked = DateTime.Today});
             context.SaveChanges();
         }
     }
