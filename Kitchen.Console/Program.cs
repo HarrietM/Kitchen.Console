@@ -2,14 +2,16 @@
 using Castle.Core.Internal;
 using Castle.Windsor;
 using Kitchen.Console.DAL;
+using Kitchen.Console.Views;
 
 namespace Kitchen.Console
 {
     using System;
     public class Program
     {
-        private static bool kitchenIsOpen;
+        private static bool _kitchenIsOpen;
         private static IKitchen _kitchen;
+        private static IView _view;
 
         static void Main(string[] args)
         {
@@ -21,13 +23,14 @@ namespace Kitchen.Console
             Database.SetInitializer<KitchenContext>(new DatabaseInitializer());
             var container = new WindsorContainer().Install(new WindsorInstaller());
             _kitchen = container.Resolve<IKitchen>();
+            _view = container.Resolve<IView>();
 
-            kitchenIsOpen = OpenKitchen();
+            _kitchenIsOpen = OpenKitchen();
 
-            while (kitchenIsOpen)
+            while (_kitchenIsOpen)
             {
                 var input = Console.ReadLine();
-                Process(container, input);
+                Process(input);
             }
 
             container.Dispose();
@@ -37,19 +40,19 @@ namespace Kitchen.Console
         public static bool OpenKitchen()
         {
             _kitchen.Open();
-            Console.WriteLine("Your kitchen is open. Please enter a command.");
+            _view.OpenKitchen();
             return true;
         }
 
-        private static void Process(IWindsorContainer container, string input)
+        private static void Process(string input)
         {
             switch (input)
             {
                 case "get recipes":
-                    _kitchen.GetAvailableRecipes().ForEach(x => Console.WriteLine(x.Name));
+                    _view.ShowRecipes(_kitchen.GetAvailableRecipes());
                     break;
                 case "get ingredients":
-                    _kitchen.GetAvailableIngredients().ForEach(x => Console.WriteLine(x.Name + "," +  x.Quantity));
+                    _view.ShowIngredients(_kitchen.GetAvailableIngredients());
                     break;
                 case "get delivery":
                     _kitchen.GetDelivery();
@@ -67,7 +70,7 @@ namespace Kitchen.Console
                     _kitchen.GetOmelettesCooked();
                     break;
                 case "close":
-                    kitchenIsOpen = false;
+                    _kitchenIsOpen = false;
                     break;
             }
         }

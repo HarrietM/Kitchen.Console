@@ -62,7 +62,10 @@ namespace Kitchen.Console
 
         public IEnumerable<Ingredient> GetAvailableIngredients()
         {
-            return AvailableIngredients;
+            using (var context = new KitchenContext())
+            {
+                return _ingredientReader.GetIngredients(context).Where(x => x.Quantity > 0).ToList();
+            }
         }
 
         public void GetDelivery()
@@ -72,7 +75,7 @@ namespace Kitchen.Console
                 var allIngredientsIds = _ingredientReader.GetIngredients(context).Select(x => x.IngredientId).ToList();
                 foreach (var id in allIngredientsIds)
                 {
-                    _ingredientWriter.UpdateQuantity(context, id, 5);
+                    _ingredientWriter.UpdateQuantity(context, id, new Random().Next(1, 10));
                 }
             }
         }
